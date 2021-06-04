@@ -9,7 +9,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Manage Contact</title>
 
-    <!-- Google Font: Source Sans Pro -->
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback"
@@ -18,6 +17,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css" />
     <!-- Theme style -->
     <link rel="stylesheet" href="dist/css/adminlte.min.css" />
+    <!-- daterange picker -->
+    <link rel="stylesheet" href="plugins/daterangepicker/daterangepicker.css" />
+    <!-- Tempusdominus Bootstrap 4 -->
+    <link
+      rel="stylesheet"
+      href="plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css"
+    />
+    <!-- Select2 -->
+    <link rel="stylesheet" href="plugins/select2/css/select2.min.css" />
+    <link rel="stylesheet" href="plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css" />
   </head>
 
   <body class="hold-transition sidebar-mini">
@@ -61,7 +70,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <div class="card card-primary">
                   <!-- /.card-header -->
                   <!-- form start -->
-                  <form action="/edit-contact/<%= client._id %>" method="POST">
+                  <form action="/edit-contact/" method="POST">
                     <div class="card-body">
                       <div class="form-group">
                         <label for="name">Name</label>
@@ -70,7 +79,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                           class="form-control"
                           id="name"
                           placeholder="Enter Name"
-                          value="<%= client.name %>"
+                          value="<%= clients.name %>"
                         />
                       </div>
                       <div class="form-group">
@@ -80,7 +89,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                           class="form-control"
                           id="email"
                           placeholder="Enter email address"
-                          value="<%= client.email %>"
+                          value="<%= clients.email %>"
                         />
                       </div>
                       <div class="form-group">
@@ -90,7 +99,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                           class="form-control"
                           id="mobile"
                           placeholder="Enter Mobile Number"
-                          value="<%= client.number %>"
+                          value="<%= clients.number %>"
                         />
                       </div>
                       <div class="form-group">
@@ -100,13 +109,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
                           class="form-control"
                           id="company"
                           placeholder="Enter Company Name"
-                          value="<%= client.cname %>"
+                          value="<%= clients.cname %>"
                         />
                       </div>
 
                       <div class="form-group">
                         <label>Category</label>
-                        <select value="<%= client.category %>" class="form-control">
+                        <select value="<%= clients.category %>" class="form-control">
                           <option>Select Category</option>
                           <% for(var i=0; i < category.length; i++) { %>
                           <option value="<%= category[i].name %>"><%= category[i].name %></option>

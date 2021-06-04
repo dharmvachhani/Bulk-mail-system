@@ -4,11 +4,13 @@ const CategoryModel = require("../models/CategoryModel");
 const getclient = async function (req, res, next) {
   try {
     const id = req.params.id;
-    const readClient = await ClientModel.findOne({ _id: id });
+    const readClients = await ClientModel.findById(id);
 
-    const readCategory = CategoryModel.find();
+    const readCategory = await CategoryModel.find();
 
-    res.render("edit-contact", { client: readClient });
+    console.log(readCategory, readClients);
+
+    res.render("edit-contact.ejs", { clients: readClients, category: readCategory });
   } catch (err) {
     console.log(err);
   }

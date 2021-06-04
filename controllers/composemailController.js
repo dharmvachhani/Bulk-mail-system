@@ -36,8 +36,34 @@ const singlepost = async function (req, res) {
 const bulk = async function (req, res) {
   try {
     const readCategory = await CategoryModel.find();
-
+    // console.log(readCategory);
     res.render("compose-bulk-mail", { category: readCategory });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const bulkpost = async function (req, res) {
+  try {
+    const category = req.body.category;
+    const subject = req.body.subject;
+    const cc = req.body.cc;
+    const bcc = req.body.bcc;
+    const msg = req.body.msg;
+    const file = req.file.filename;
+
+    const readClients = await ClientModel.find({ category: category });
+    for (var i = 0; i < readClients.lenght; i++) {
+      consol.log(readclients[i].email);
+
+      // sendMail(readclients[i].email, subject, cc, bcc, msg, file, function (err, data) {
+      //   if (err) {
+      //     res.status(500).json({ message: err });
+      //   } else {
+      //     res.redirect("/compose-single-mail");
+      //   }
+      // });
+    }
   } catch (err) {
     console.log(err);
   }

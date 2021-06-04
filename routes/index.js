@@ -47,9 +47,9 @@ router.post("/add-contact", addcontactController.addclient);
 
 router.get("/add-contact", addcontactController.fatchclient);
 
-router.get("/edit-contact/:id", editcontactController.getclient);
+router.get("/edit-contact/:id/", editcontactController.getclient);
 
-// router.get("/edit-contact/:id", editcontactController.getclient);
+// router.post("/edit-contact/:id", editcontactController.getclient);
 
 router.get("/delete-contact/:id", deletecontactController);
 
