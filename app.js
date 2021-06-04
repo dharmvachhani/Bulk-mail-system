@@ -17,9 +17,9 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-
-// app.use("/edit-contact/:id/", express.static(__dirname + "public/"));
 app.use(express.static(path.join(__dirname, "public")));
+// app.use("/edit-contact/:id/", express.static(path.join(__dirname, "public")));
+
 app.use(session({ secret: "dharm vachhani", resave: false, saveUninitialized: true }));
 
 app.use("/", indexRouter);
