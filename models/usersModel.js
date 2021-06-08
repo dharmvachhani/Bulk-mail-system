@@ -1,21 +1,83 @@
-const mongoose = require("mongoose");
+var con = require("../config/db");
 
-const userSchema = new mongoose.Schema({
-  name: {
-    type: String,
-  },
-  email: {
-    type: String,
-    unique: [true, "email used"],
-  },
-  mobile: {
-    type: Number,
-  },
-  password: {
-    type: String,
-  },
-});
+const create = function (data, callback) {
+  con.query("INSERT INTO user SET ?", data, function (err, result) {
+    if (err) {
+      // console.log("error: ", err);
+      callback(err, null);
+      return;
+    }
+    // console.log("created: ", { id: result.insertId });
+    callback(null, { id: result.insertId });
+  });
+};
 
-const User = mongoose.model("User", userSchema);
+const get = function (callback) {
+  con.query("SELECT * FROM user WHERE is_deleted = 0", function (err, result) {
+    if (err) {
+      // console.log("error: ", err);
+      callback(err, null);
+      return;
+    }
+    // console.log(result);
+    callback(null, result);
+  });
+};
 
-module.exports = User;
+const getById = function (id, callback) {
+  con.query("SELECT * FROM user WHERE id = ?", id, function (err, result) {
+    if (err) {
+      // console.log("error: ", err);
+      callback(err, null);
+      return;
+    }
+    // console.log(result);
+    callback(null, result);
+  });
+};
+
+const upadateById = function (id, data, callback) {
+  con.query("UPDATE user SET name = ? WHERE id = ?", [data.name, id], function (err, result) {
+    if (err) {
+      // console.log("error: ", err);
+      callback(err, null);
+      return;
+    }
+    if (result.affectedRows == 0) {
+      callback({ kind: "not_found" }, null);
+      return;
+    }
+    // console.log("updated: ", { id: id, ...data });
+    callback(null, { id: id, ...data });
+  });
+};
+
+const deleteById = function (id, callback) {
+  con.query("DELETE FROM user WHERE id = ?", id, function (err, result) {
+    if (err) {
+      // console.log("error: ", err);
+      callback(err, null);
+      return;
+    }
+    if (result.affectedRows == 0) {
+      callback({ kind: "not_found" }, null);
+      return;
+    }
+
+    // console.log("deleted: ", { id: id, ...data });
+    callback(null, result);
+  });
+};
+
+const customQuery = function (query, callback) {
+  con.query(query, function (err, result) {
+    if (err) {
+      // console.log("error: ", err);
+      callback(err, null);
+      return;
+    }
+    callback(null, result);
+  });
+};
+
+module.exports = { create, get, getById, upadateById, deleteById, customQuery };

@@ -13,6 +13,16 @@ var editcontactController = require("../controllers/editcontactController");
 var deletecontactController = require("../controllers/deletecontactController");
 var managecontactController = require("../controllers/managecontactController");
 var composemailController = require("../controllers/composemailController");
+var smtpController = require("../controllers/smtpController");
+
+var authorised = function (req, res, next) {
+  if (req.session.authorised) {
+    next();
+  } else {
+    res.redirect("/login");
+  }
+};
+
 var multer = require("multer");
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -25,11 +35,13 @@ var storage = multer.diskStorage({
 
 var upload = multer({ storage: storage });
 
-router.get("/", dashboardController);
+router.get("/", authorised, dashboardController);
 
-router.get("/login", loginController);
+router.get("/login", loginController.get);
+router.post("/login", loginController.post);
 
-router.get("/register", registerController);
+router.get("/register", registerController.get);
+router.post("/register", registerController.post);
 
 router.get("/forgot-password", forgotController);
 
@@ -39,26 +51,32 @@ router.get("/logout", logoutController);
 
 router.post("/category", categoryController.addcat);
 
-router.get("/category", categoryController.fatchcat);
+router.get("/category", authorised, categoryController.fatchcat);
 
-router.get("/delete-category/:id", categoryController.deletecat);
+router.get("/delete-category/:id", authorised, categoryController.deletecat);
 
 router.post("/add-contact", addcontactController.addclient);
 
-router.get("/add-contact", addcontactController.fatchclient);
+router.get("/add-contact", authorised, addcontactController.fatchclient);
 
-router.get("/edit-contact/:id/", editcontactController.getclient);
+router.get("/edit-contact/:id/", authorised, editcontactController.getclient);
 
-// router.post("/edit-contact/:id", editcontactController.getclient);
+router.post("/edit-contact", editcontactController.updateclient);
 
-router.get("/delete-contact/:id", deletecontactController);
+router.get("/delete-contact/:id", authorised, deletecontactController);
 
-router.get("/manage-contact", managecontactController);
+router.get("/manage-contact", authorised, managecontactController);
 
-router.get("/compose-single-mail", composemailController.single);
+router.get("/compose-single-mail", authorised, composemailController.single);
 
 router.post("/compose-single-mail", upload.single("attachment"), composemailController.singlepost);
 
-router.get("/compose-bulk-mail", composemailController.bulk);
+router.get("/compose-bulk-mail", authorised, composemailController.bulk);
+
+router.post("/compose-single-mail", upload.single("attachment"), composemailController.bulkpost);
+
+router.get("/smtp-setting", authorised, smtpController.getsmtp);
+
+router.post("/smtp-setting", smtpController.updatesmtp);
 
 module.exports = router;

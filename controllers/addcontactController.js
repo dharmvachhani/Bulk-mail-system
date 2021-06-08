@@ -1,27 +1,24 @@
-const Clientmodel = require("../models/clientsModel");
-const CategoryModel = require("../models/CategoryModel");
+const Client = require("../models/clientsModel");
+const Category = require("../models/CategoryModel");
 
-const addclient = async function (req, res, next) {
-  try {
-    const client = new Clientmodel(req.body);
-    const createClient = await client.save();
-
-    const readCategory = CategoryModel.find();
-
-    res.render("add-contact", { alert: "success", category: readCategory });
-  } catch (err) {
-    res.render("add-contact", { alert: "fail" });
-  }
+const addclient = function (req, res, next) {
+  Client.create(req.body, function (err, result) {
+    if (err) {
+      res.render("add-contact", { alert: "fail", category: {} });
+    } else {
+      Category.get(function (err, result) {
+        if (err) throw err;
+        res.render("add-contact", { alert: "", category: result });
+      });
+    }
+  });
 };
 
-const fatchclient = async function (req, res, next) {
-  try {
-    const readCategory = await CategoryModel.find();
-
-    res.render("add-contact", { alert: "", category: readCategory });
-  } catch (err) {
-    res.render("add-contact", { alert: "fail" });
-  }
+const fatchclient = function (req, res, next) {
+  Category.get(function (err, result) {
+    if (err) throw err;
+    res.render("add-contact", { alert: "", category: result });
+  });
 };
 
 module.exports = { addclient, fatchclient };

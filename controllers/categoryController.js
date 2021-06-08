@@ -1,39 +1,27 @@
-const CategoryModel = require("../models/CategoryModel");
+const Category = require("../models/CategoryModel");
 
-const fatchcat = async function (req, res, next) {
-  try {
-    const readCategory = await CategoryModel.find();
-
-    res.render("category", { categories: readCategory });
-  } catch (err) {
-    console.log(err);
-  }
+const fatchcat = function (req, res, next) {
+  Category.get(function (err, result) {
+    if (err) throw err;
+    res.render("category", { categories: result });
+  });
 };
 
-const addcat = async function (req, res, next) {
-  try {
-    arraycat = {
-      name: req.body.category,
-    };
-    const category = new CategoryModel(arraycat);
-    const addCategory = await category.save();
-
-    const readCategory = await CategoryModel.find();
-
-    res.render("category", { categories: readCategory });
-  } catch (err) {
-    console.log(err);
-  }
-};
-
-const deletecat = async function (req, res, next) {
-  try {
-    const deleteClient = await CategoryModel.findByIdAndRemove(req.params.id);
-
+const addcat = function (req, res, next) {
+  arraycat = {
+    name: req.body.category,
+  };
+  Category.create(arraycat, function (err, result) {
+    if (err) throw err;
     res.redirect("/category");
-  } catch (err) {
-    console.log(err);
-  }
+  });
+};
+
+const deletecat = function (req, res, next) {
+  Category.deleteById(req.params.id, function (err, result) {
+    if (err) throw err;
+    res.redirect("/category");
+  });
 };
 
 module.exports = { fatchcat, addcat, deletecat };

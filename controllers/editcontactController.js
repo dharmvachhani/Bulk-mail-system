@@ -1,18 +1,27 @@
-const ClientModel = require("../models/clientsModel");
-const CategoryModel = require("../models/CategoryModel");
+const Client = require("../models/clientsModel");
+const Category = require("../models/CategoryModel");
 
-const getclient = async function (req, res, next) {
-  try {
-    const id = req.params.id;
-    const readClients = await ClientModel.findById(id);
+const getclient = function (req, res, next) {
+  const id = req.params.id;
+  var catlist = "";
+  Category.get(function (err, result) {
+    if (err) throw err;
+    catlist = result;
+  });
 
-    const readCategory = await CategoryModel.find();
+  const sql = `SELECT client.*,category.name AS category_name FROM client JOIN category ON category.id = client.category_id WHERE client.id = ${id}`;
 
-    console.log(readCategory, readClients);
-
-    res.render("edit-contact.ejs", { clients: readClients, category: readCategory });
-  } catch (err) {
-    console.log(err);
-  }
+  Client.customQuery(sql, function (err, result) {
+    if (err) throw err;
+    res.render("edit-contact", { clients: result, category: catlist });
+  });
 };
-module.exports = { getclient };
+
+const updateclient = function (req, res, next) {
+  Client.upadateById(req.body, function (err, result) {
+    if (err) throw err;
+
+    res.redirect("/manage-contact");
+  });
+};
+module.exports = { getclient, updateclient };

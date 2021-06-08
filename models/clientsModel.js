@@ -1,28 +1,91 @@
-const mongoose = require("mongoose");
+var con = require("../config/db");
 
-const clientSchema = new mongoose.Schema({
-  name: {
-    type: String,
-  },
-  email: {
-    type: String,
-    unique: [true, "email used"],
-  },
-  number: {
-    type: Number,
-    unique: [true, "Number used"],
-  },
-  cname: {
-    type: String,
-  },
-  date: {
-    type: Date,
-  },
-  category: {
-    type: String,
-  },
-});
+const create = function (data, callback) {
+  con.query(
+    "INSERT INTO client (name,email,number,cname,date,category_id) VALUES (?,?,?,?,?,?)",
+    [data.name, data.email, data.number, data.cname, data.date, data.category_id],
+    function (err, result) {
+      if (err) {
+        // console.log("error: ", err);
+        callback(err, null);
+        return;
+      }
+      // console.log("created: ", { id: result.insertId });
+      callback(null, { id: result.insertId });
+    }
+  );
+};
 
-const Client = mongoose.model("Client", clientSchema);
+const get = function (callback) {
+  con.query("SELECT * FROM client WHERE is_deleted = 0", function (err, result) {
+    if (err) {
+      // console.log("error: ", err);
+      callback(err, null);
+      return;
+    }
+    // console.log(result);
+    callback(null, result);
+  });
+};
 
-module.exports = Client;
+const getById = function (id, callback) {
+  con.query("SELECT * FROM client WHERE id = ?", id, function (err, result) {
+    if (err) {
+      // console.log("error: ", err);
+      callback(err, null);
+      return;
+    }
+    // console.log(result);
+    callback(null, result);
+  });
+};
+
+const upadateById = function (data, callback) {
+  con.query(
+    "UPDATE client SET name = ?,email = ?,number = ?,cname = ?,date = ?,category_id = ? WHERE id = ?",
+    [data.name, data.email, data.number, data.cname, data.date, data.category_id, data.client_id],
+    function (err, result) {
+      if (err) {
+        // console.log("error: ", err);
+        callback(err, null);
+        return;
+      }
+      if (result.affectedRows == 0) {
+        callback({ kind: "not_found" }, null);
+        return;
+      }
+      // console.log("updated: ", { id: id, ...data });
+      callback(null, { ...data });
+    }
+  );
+};
+
+const deleteById = function (id, callback) {
+  con.query("UPDATE client SET is_deleted = 1 WHERE id = ?", id, function (err, result) {
+    if (err) {
+      // console.log("error: ", err);
+      callback(err, null);
+      return;
+    }
+    if (result.affectedRows == 0) {
+      callback({ kind: "not_found" }, null);
+      return;
+    }
+
+    // console.log("deleted: ", { id: id, ...data });
+    callback(null, result);
+  });
+};
+
+const customQuery = function (sqlquery, callback) {
+  con.query(sqlquery, function (err, result) {
+    if (err) {
+      // console.log("error: ", err);
+      callback(err, null);
+      return;
+    }
+    callback(null, result);
+  });
+};
+
+module.exports = { create, get, getById, upadateById, deleteById, customQuery };

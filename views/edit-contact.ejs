@@ -29,6 +29,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css" />
   </head>
 
+  <% function formatDate(date) { var d = new Date(date), month = "" + (d.getMonth() + 1), day = "" +
+  d.getDate(), year = d.getFullYear(); if (month.length < 2) month = "0" + month; if (day.length <
+  2) day = "0" + day; return [year, month, day].join("-"); } %>
   <body class="hold-transition sidebar-mini">
     <div class="wrapper">
       <%- include('partials/sidebar') %>
@@ -70,16 +73,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <div class="card card-primary">
                   <!-- /.card-header -->
                   <!-- form start -->
-                  <form action="/edit-contact/" method="POST">
+                  <form action="/edit-contact" method="POST">
                     <div class="card-body">
                       <div class="form-group">
                         <label for="name">Name</label>
+                        <input type="hidden" value="<%= clients[0].id %>" name="client_id" />
                         <input
                           type="text"
                           class="form-control"
                           id="name"
+                          name="name"
                           placeholder="Enter Name"
-                          value="<%= clients.name %>"
+                          value="<%= clients[0].name %>"
                         />
                       </div>
                       <div class="form-group">
@@ -88,8 +93,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                           type="email"
                           class="form-control"
                           id="email"
+                          name="email"
                           placeholder="Enter email address"
-                          value="<%= clients.email %>"
+                          value="<%= clients[0].email %>"
                         />
                       </div>
                       <div class="form-group">
@@ -98,8 +104,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                           type="tel"
                           class="form-control"
                           id="mobile"
+                          name="number"
                           placeholder="Enter Mobile Number"
-                          value="<%= clients.number %>"
+                          value="<%= clients[0].number %>"
                         />
                       </div>
                       <div class="form-group">
@@ -108,18 +115,35 @@ scratch. This page gets rid of all links and provides the needed markup only.
                           type="text"
                           class="form-control"
                           id="company"
+                          name="cname"
                           placeholder="Enter Company Name"
-                          value="<%= clients.cname %>"
+                          value="<%= clients[0].cname %>"
                         />
                       </div>
-
+                      <div class="form-group">
+                        <label>Date:</label>
+                        <% var date1 = formatDate(clients[0].date) %>
+                        <input
+                          type="date"
+                          name="date"
+                          id="dateofcontact"
+                          value="<%= date1 %>"
+                          class="form-control"
+                        />
+                      </div>
                       <div class="form-group">
                         <label>Category</label>
-                        <select value="<%= clients.category %>" class="form-control">
+                        <select class="form-control" name="category_id">
                           <option>Select Category</option>
-                          <% for(var i=0; i < category.length; i++) { %>
-                          <option value="<%= category[i].name %>"><%= category[i].name %></option>
-                          <% } %>
+                          <% for(var i=0; i < category.length; i++) { if (category[i].id ==
+                          clients[0].category_id){ %>
+                          <option value="<%= category[i].id %>" selected>
+                            <%= category[i].name %>
+                          </option>
+                          <% } else{%>
+
+                          <option value="<%= category[i].id %>"><%= category[i].name %></option>
+                          <% }} %>
                         </select>
                       </div>
                     </div>

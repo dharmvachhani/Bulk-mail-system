@@ -1,3 +1,12 @@
 module.exports = function (req, res, next) {
-  res.render("dashboard");
+  if (req.session) {
+    // delete session object
+    req.session.destroy(function (err) {
+      if (err) {
+        return next(err);
+      } else {
+        return res.redirect("/");
+      }
+    });
+  }
 };

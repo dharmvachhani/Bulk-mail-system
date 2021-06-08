@@ -1,13 +1,8 @@
-const Clientmodel = require("../models/clientsModel");
+const Client = require("../models/clientsModel");
 
 module.exports = async function (req, res, next) {
-  try {
-    const deleteClient = await Clientmodel.findByIdAndRemove(req.params.id);
-
-    const readClients = await Clientmodel.find();
-
+  Client.deleteById(req.params.id, function (err, result) {
+    if (err) throw err;
     res.redirect("/manage-contact");
-  } catch (err) {
-    console.log(err);
-  }
+  });
 };

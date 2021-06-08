@@ -131,10 +131,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       </div>
                       <div class="form-group">
                         <label>Category</label>
-                        <select class="form-control" name="category">
+                        <select class="form-control" name="category_id">
                           <option>Select Category</option>
                           <% for(var i=0; i < category.length; i++) { %>
-                          <option value="<%= category[i].name %>"><%= category[i].name %></option>
+                          <option value="<%= category[i].id %>"><%= category[i].name %></option>
                           <% } %>
                         </select>
                       </div>

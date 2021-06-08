@@ -7,7 +7,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Manage Contacts</title>
+    <title>SMTP Setting</title>
 
     <!-- Google Font: Source Sans Pro -->
     <link
@@ -31,9 +31,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <div class="wrapper">
       <%- include('partials/sidebar') %>
       <script type="text/javascript">
-        var element = document.getElementById("nav3");
+        var element = document.getElementById("nav5");
         element.classList.add("active");
       </script>
+      <script></script>
       <!-- Content Wrapper. Contains page content -->
       <div class="content-wrapper">
         <!-- Content Header (Page header) -->
@@ -41,13 +42,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <div class="container-fluid">
             <div class="row mb-2">
               <div class="col-sm-6">
-                <h1 class="m-0">Manage Contacts</h1>
+                <h1 class="m-0">SMTP Setting</h1>
               </div>
+
               <!-- /.col -->
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                   <li class="breadcrumb-item"><a href="#">Home</a></li>
-                  <li class="breadcrumb-item active">Manage Contacts</li>
+                  <li class="breadcrumb-item active">SMTP Setting</li>
                 </ol>
               </div>
               <!-- /.col -->
@@ -61,64 +63,74 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <!-- Main content -->
         <section class="content">
           <div class="container-fluid">
-            <div class="card">
-              <div class="card-header">
-                <h3 class="card-title">DataTable with default features</h3>
+            <div class="row">
+              <div class="col-md-3"></div>
+              <div class="col-md-6">
+                <!-- general form elements -->
+                <div class="card card-primary">
+                  <!-- /.card-header -->
+                  <!-- form start -->
+                  <form action="/smtp-setting" method="POST">
+                    <div class="card-body">
+                      <div class="form-group">
+                        <label for="host">SMTP Host</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="host"
+                          name="host"
+                          placeholder="Enter SMTP Host"
+                          value="<%= fatchsmtp[0].host %>"
+                          required
+                        />
+                      </div>
+                      <div class="form-group">
+                        <label for="port">SMTP Port (TLS)</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="port"
+                          name="port"
+                          placeholder="Enter SMTP Port"
+                          value="<%= fatchsmtp[0].port %>"
+                          required
+                        />
+                      </div>
+                      <div class="form-group">
+                        <label for="user">Username</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="user"
+                          name="user"
+                          placeholder="Enter Username"
+                          value="<%= fatchsmtp[0].user %>"
+                          required
+                        />
+                      </div>
+                      <div class="form-group">
+                        <label for="pass">Password</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="pass"
+                          name="pass"
+                          placeholder="Enter Password"
+                          value="<%= fatchsmtp[0].pass %>"
+                          required
+                        />
+                      </div>
+                      <button type="submit" class="btn btn-primary">Update</button>
+                    </div>
+                    <!-- /.card-body -->
+                  </form>
+                </div>
               </div>
-              <!-- /.card-header -->
-              <div class="card-body">
-                <table id="example1" class="table table-bordered table-striped text-center">
-                  <thead>
-                    <tr>
-                      <th>Name</th>
-                      <th>Email</th>
-                      <th>Mobile No.</th>
-                      <th>Company Name</th>
-                      <th>Date of Contact</th>
-                      <th>Category</th>
-                      <th>Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <% for(var i=0; i < clients.length; i++) { %>
-
-                    <tr>
-                      <td><%= clients[i].name %></td>
-                      <td><%= clients[i].email %></td>
-                      <td><%= clients[i].number %></td>
-                      <td><%= clients[i].cname %></td>
-                      <td><%= clients[i].date.toLocaleDateString() %></td>
-                      <td><%= clients[i].category_name %></td>
-                      <td>
-                        <a href="/edit-contact/<%= clients[i].id %>"><i class="fa fa-edit"></i></a
-                        >&nbsp;&nbsp;
-                        <a href="/delete-contact/<%= clients[i].id %>"
-                          ><i class="fa fa-trash"></i
-                        ></a>
-                      </td>
-                    </tr>
-                    <% } %>
-                  </tbody>
-
-                  <tfoot>
-                    <tr>
-                      <th>Name</th>
-                      <th>Email</th>
-                      <th>Mobile No.</th>
-                      <th>Company Name</th>
-                      <th>Date of Contact</th>
-                      <th>Category</th>
-                      <th>Action</th>
-                    </tr>
-                  </tfoot>
-                </table>
-              </div>
-              <!-- /.card-body -->
+              <div class="col-md-3"></div>
             </div>
           </div>
           <!-- /.container-fluid -->
         </section>
-        <!-- /.content -->
       </div>
       <!-- /.content-wrapper -->
     </div>
@@ -132,6 +144,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- AdminLTE App -->
     <script src="/dist/js/adminlte.min.js"></script>
+    <!-- bs-custom-file-input -->
+    <script src="/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
     <!-- DataTables & Plugins -->
     <script src="/plugins/datatables/jquery.dataTables.min.js"></script>
     <script src="/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
@@ -153,9 +167,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
           .DataTable({
             responsive: true,
             lengthChange: true,
-            autoWidth: false,
-            buttons: ["copy", "csv", "excel", "pdf", "print", "colvis"],
-            columnDefs: [{ orderable: false, targets: 6 }],
+            autoWidth: true,
+            columnDefs: [{ orderable: false, targets: 1 }],
             order: [[1, "asc"]],
           })
           .buttons()
@@ -170,6 +183,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
           autoWidth: false,
           responsive: true,
         });
+      });
+    </script>
+    <script>
+      $(function () {
+        bsCustomFileInput.init();
       });
     </script>
   </body>

@@ -1,72 +1,62 @@
-const ClientModel = require("../models/clientsModel");
-const CategoryModel = require("../models/CategoryModel");
+const Client = require("../models/clientsModel");
+const Category = require("../models/CategoryModel");
 const sendMail = require("../utils/mail");
 
-const single = async function (req, res) {
-  try {
-    const readClients = await ClientModel.find();
-
-    res.render("compose-single-mail", { clients: readClients });
-  } catch (err) {
-    console.log(err);
-  }
+const single = function (req, res) {
+  Client.get(function (err, result) {
+    res.render("compose-single-mail", { clients: result });
+  });
 };
 
-const singlepost = async function (req, res) {
-  try {
-    const mail = req.body.client;
-    const subject = req.body.subject;
-    const cc = req.body.cc;
-    const bcc = req.body.bcc;
-    const msg = req.body.msg;
-    const file = req.file.filename;
+const singlepost = function (req, res) {
+  const mail = req.body.client;
+  const subject = req.body.subject;
+  const cc = req.body.cc;
+  const bcc = req.body.bcc;
+  const msg = req.body.msg;
+  const file = req.file.filename;
 
-    sendMail(mail, subject, cc, bcc, msg, file, function (err, data) {
+  sendMail(mail, subject, cc, bcc, msg, file, function (err, data) {
+    if (err) {
+      res.status(500).json({ message: err });
+    } else {
+      res.redirect("/compose-single-mail");
+    }
+  });
+};
+
+const bulk = function (req, res) {
+  Category.get(function (err, result) {
+    res.render("compose-bulk-mail", { category: result });
+  });
+};
+
+const bulkpost = function (req, res) {
+  const category = req.body.category;
+  const subject = req.body.subject;
+  const cc = req.body.cc;
+  const bcc = req.body.bcc;
+  const msg = req.body.msg;
+  const file = req.file.filename;
+
+  var readClients = "";
+  sql = `SELECT * FROM client WHERE is_deleted = 0 AND category_id = ${category}`;
+  Client.customQuery(sql, function (err, result) {
+    if (err) throw err;
+    readClients = result;
+  });
+
+  for (var i = 0; i < readClients.lenght; i++) {
+    consol.log(readclients[i].email);
+
+    sendMail(readclients[i].email, subject, cc, bcc, msg, file, function (err, data) {
       if (err) {
         res.status(500).json({ message: err });
       } else {
-        res.redirect("/compose-single-mail");
+        res.redirect("/compose-bulk-mail");
       }
     });
-  } catch (err) {
-    console.log(err);
   }
 };
 
-const bulk = async function (req, res) {
-  try {
-    const readCategory = await CategoryModel.find();
-    // console.log(readCategory);
-    res.render("compose-bulk-mail", { category: readCategory });
-  } catch (err) {
-    console.log(err);
-  }
-};
-
-const bulkpost = async function (req, res) {
-  try {
-    const category = req.body.category;
-    const subject = req.body.subject;
-    const cc = req.body.cc;
-    const bcc = req.body.bcc;
-    const msg = req.body.msg;
-    const file = req.file.filename;
-
-    const readClients = await ClientModel.find({ category: category });
-    for (var i = 0; i < readClients.lenght; i++) {
-      consol.log(readclients[i].email);
-
-      // sendMail(readclients[i].email, subject, cc, bcc, msg, file, function (err, data) {
-      //   if (err) {
-      //     res.status(500).json({ message: err });
-      //   } else {
-      //     res.redirect("/compose-single-mail");
-      //   }
-      // });
-    }
-  } catch (err) {
-    console.log(err);
-  }
-};
-
-module.exports = { single, singlepost, bulk };
+module.exports = { single, singlepost, bulk, bulkpost };
