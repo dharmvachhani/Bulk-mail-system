@@ -3,7 +3,8 @@ const Category = require("../models/CategoryModel");
 const sendMail = require("../utils/mail");
 
 const single = function (req, res) {
-  Client.get(function (err, result) {
+  const user_id = req.session.user_id;
+  Client.get(user_id, function (err, result) {
     res.render("compose-single-mail", { clients: result });
   });
 };
@@ -26,7 +27,8 @@ const singlepost = function (req, res) {
 };
 
 const bulk = function (req, res) {
-  Category.get(function (err, result) {
+  const user_id = req.session.user_id;
+  Category.get(user_id, function (err, result) {
     res.render("compose-bulk-mail", { category: result });
   });
 };

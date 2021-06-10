@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Log in</title>
+    <title>Registration</title>
 
     <!-- Google Font: Source Sans Pro -->
     <link
@@ -17,22 +17,49 @@
     <!-- Theme style -->
     <link rel="stylesheet" href="/dist/css/adminlte.min.css" />
   </head>
-  <body class="hold-transition login-page">
-    <div class="login-box">
-      <!-- /.login-logo -->
+  <body class="hold-transition register-page">
+    <div class="register-box">
       <div class="card card-outline card-primary">
         <div class="card-header text-center">
-          <a href="/login" class="h1"><b>Bulk Mailer</b></a>
+          <a href="" class="h1"><b>Bulk Mailer</b></a>
         </div>
         <div class="card-body">
-          <p class="login-box-msg"><%= msg %></p>
+          <p class="login-box-msg" style="color: red"><%= msg %></p>
 
-          <form action="/login" method="POST">
+          <form action="/register" method="POST">
+            <div class="input-group mb-3">
+              <input
+                type="text"
+                class="form-control"
+                name="name"
+                placeholder="Full name"
+                required
+              />
+              <div class="input-group-append">
+                <div class="input-group-text">
+                  <span class="fas fa-user"></span>
+                </div>
+              </div>
+            </div>
             <div class="input-group mb-3">
               <input type="email" class="form-control" name="email" placeholder="Email" required />
               <div class="input-group-append">
                 <div class="input-group-text">
                   <span class="fas fa-envelope"></span>
+                </div>
+              </div>
+            </div>
+            <div class="input-group mb-3">
+              <input
+                type="tel"
+                class="form-control"
+                name="number"
+                placeholder="Mobile Number"
+                required
+              />
+              <div class="input-group-append">
+                <div class="input-group-text">
+                  <span class="fas fa-phone"></span>
                 </div>
               </div>
             </div>
@@ -50,31 +77,39 @@
                 </div>
               </div>
             </div>
+            <div class="input-group mb-3">
+              <input
+                type="password"
+                class="form-control"
+                name="password2"
+                placeholder="Retype password"
+                required
+              />
+              <div class="input-group-append">
+                <div class="input-group-text">
+                  <span class="fas fa-lock"></span>
+                </div>
+              </div>
+            </div>
             <div class="row">
               <!-- /.col -->
               <div class="col-4">
-                <button type="submit" class="btn btn-primary btn-block">Login</button>
-              </div>
-              <div class="col-8">
-                <a href="/register" class="text-center" style="padding: 5px; float: right"
-                  >Register
-                </a>
+                <button type="submit" class="btn btn-primary btn-block">Register</button>
               </div>
               <!-- /.col -->
+              <div class="col-8">
+                <a href="/login" class="text-center" style="float: right; padding: 5px"
+                  >I already have a account</a
+                >
+              </div>
             </div>
           </form>
-
-          <!-- /.social-auth-links -->
-
-          <p class="mb-1" style="padding-top: 10px; text-align: center">
-            <a href="/forgot-password">I forgot my password</a>
-          </p>
         </div>
-        <!-- /.card-body -->
+        <!-- /.form-box -->
       </div>
       <!-- /.card -->
     </div>
-    <!-- /.login-box -->
+    <!-- /.register-box -->
 
     <!-- jQuery -->
     <script src="/plugins/jquery/jquery.min.js"></script>

@@ -12,16 +12,20 @@ const create = function (data, callback) {
   });
 };
 
-const get = function (callback) {
-  con.query("SELECT * FROM category WHERE is_deleted = 0", function (err, result) {
-    if (err) {
-      // console.log("error: ", err);
-      callback(err, null);
-      return;
+const get = function (uid, callback) {
+  con.query(
+    "SELECT * FROM category WHERE is_deleted = 0 AND user_id = ?",
+    uid,
+    function (err, result) {
+      if (err) {
+        // console.log("error: ", err);
+        callback(err, null);
+        return;
+      }
+      // console.log(result);
+      callback(null, result);
     }
-    // console.log(result);
-    callback(null, result);
-  });
+  );
 };
 
 const getById = function (id, callback) {

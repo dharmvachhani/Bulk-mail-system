@@ -2,8 +2,8 @@ var con = require("../config/db");
 
 const create = function (data, callback) {
   con.query(
-    "INSERT INTO client (name,email,number,cname,date,category_id) VALUES (?,?,?,?,?,?)",
-    [data.name, data.email, data.number, data.cname, data.date, data.category_id],
+    "INSERT INTO client (user_id,name,email,number,cname,date,category_id) VALUES (?,?,?,?,?,?,?)",
+    [data.user_id, data.name, data.email, data.number, data.cname, data.date, data.category_id],
     function (err, result) {
       if (err) {
         // console.log("error: ", err);
@@ -16,16 +16,20 @@ const create = function (data, callback) {
   );
 };
 
-const get = function (callback) {
-  con.query("SELECT * FROM client WHERE is_deleted = 0", function (err, result) {
-    if (err) {
-      // console.log("error: ", err);
-      callback(err, null);
-      return;
+const get = function (uid, callback) {
+  con.query(
+    "SELECT * FROM client WHERE is_deleted = 0 AND user_id = ?",
+    uid,
+    function (err, result) {
+      if (err) {
+        // console.log("error: ", err);
+        callback(err, null);
+        return;
+      }
+      // console.log(result);
+      callback(null, result);
     }
-    // console.log(result);
-    callback(null, result);
-  });
+  );
 };
 
 const getById = function (id, callback) {

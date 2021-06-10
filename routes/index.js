@@ -13,6 +13,8 @@ var editcontactController = require("../controllers/editcontactController");
 var deletecontactController = require("../controllers/deletecontactController");
 var managecontactController = require("../controllers/managecontactController");
 var composemailController = require("../controllers/composemailController");
+var emailtempController = require("../controllers/emailtempController");
+var sentmailsController = require("../controllers/sentmailsController");
 var smtpController = require("../controllers/smtpController");
 
 var authorised = function (req, res, next) {
@@ -74,6 +76,10 @@ router.post("/compose-single-mail", upload.single("attachment"), composemailCont
 router.get("/compose-bulk-mail", authorised, composemailController.bulk);
 
 router.post("/compose-single-mail", upload.single("attachment"), composemailController.bulkpost);
+
+router.get("/email-templates", authorised, emailtempController);
+
+router.get("/sent-mails", authorised, sentmailsController);
 
 router.get("/smtp-setting", authorised, smtpController.getsmtp);
 

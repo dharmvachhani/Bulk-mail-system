@@ -4,7 +4,8 @@ const Category = require("../models/CategoryModel");
 const getclient = function (req, res, next) {
   const id = req.params.id;
   var catlist = "";
-  Category.get(function (err, result) {
+  const user_id = req.session.user_id;
+  Category.get(user_id, function (err, result) {
     if (err) throw err;
     catlist = result;
   });

@@ -1,29 +1,47 @@
+const SMTP = require("../models/smtpModel");
 const nodemailer = require("nodemailer");
 const smtpTransport = require("nodemailer-smtp-transport");
 const path = require("path");
 
-// const transporter = nodemailer.createTransport(
-//   smtpTransport({
-//     host: "rachanawebtech.in",
-//     secureConnection: true,
-//     tls: {
-//       rejectUnauthorized: false,
-//     },
-//     port: 587,
-//     auth: {
-//       user: "info@rachanawebtech.in",
-//       pass: "",
-//     },
-//   })
-// );
+// var smtphost = "";
+// var smtpport = "";
+// var smtpuser = "";
+// var smtppass = "";
+// // const user_id = session.user_id;
 
-const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: "dharmpatel1105@gmail.com",
-    pass: "",
-  },
-});
+// SMTP.get(function (err, result) {
+//   if (err) {
+//     console.log(err);
+//   } else {
+//     smtphost = result[0].host;
+//     smtpport = result[0].port;
+//     smtpuser = result[0].user;
+//     smtppass = result[0].pass;
+//   }
+// });
+
+const transporter = nodemailer.createTransport(
+  smtpTransport({
+    host: "rachanawebtech.in",
+    secureConnection: true,
+    tls: {
+      rejectUnauthorized: false,
+    },
+    port: 587,
+    auth: {
+      user: "info@rachanawebtech.in",
+      pass: "",
+    },
+  })
+);
+
+// const transporter = nodemailer.createTransport({
+//   service: "gmail",
+//   auth: {
+//     user: "dharmpatel1105@gmail.com",
+//     pass: "",
+//   },
+// });
 
 const sendMail = (mail, subject, cc, bcc, msg, file, cb) => {
   const mailOptions = {
