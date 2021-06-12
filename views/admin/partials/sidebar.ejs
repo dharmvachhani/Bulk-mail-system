@@ -19,7 +19,7 @@
 <!-- /.navbar -->
 
 <!-- Main Sidebar Container -->
-<aside class="main-sidebar sidebar-dark-primary elevation-4">
+<aside class="main-sidebar sidebar-dark-primary elevation-4" style="position: fixed">
   <!-- Brand Logo -->
   <a href="/" class="brand-link">
     <img
@@ -44,68 +44,22 @@
         data-accordion="false"
       >
         <li class="nav-item">
-          <a href="/" class="nav-link" id="nav1">
+          <a href="/admin" class="nav-link" id="nav1">
             <i class="nav-icon fas fa-tachometer-alt"></i>
             <p>Dashboard</p>
           </a>
         </li>
         <li class="nav-item">
-          <a href="/category" class="nav-link" id="nav5">
+          <a href="/admin/users" class="nav-link" id="nav5">
+            <i class="nav-icon fa fa-users"></i>
+            <p>Users</p>
+          </a>
+        </li>
+        </li>
+        <li class="nav-item">
+          <a href="/admin/plans" class="nav-link" id="nav3">
             <i class="nav-icon fas fa-list-ul"></i>
-            <p>Category</p>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a href="/add-contact" class="nav-link" id="nav2">
-            <i class="nav-icon fas fa-plus-circle"></i>
-            <p>Add Contact</p>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a href="/manage-contact" class="nav-link" id="nav3">
-            <i class="nav-icon fa fa-address-book"></i>
-            <p>Manage Contact</p>
-          </a>
-        </li>
-        <li class="nav-item menu-open" id="mainnav4">
-          <a href="#" class="nav-link" id="nav4">
-            <i class="nav-icon far fa-edit"></i>
-            <p>
-              Compose Mail
-              <i class="fas fa-angle-left right"></i>
-            </p>
-          </a>
-          <ul class="nav nav-treeview">
-            <li class="nav-item">
-              <a href="/compose-single-mail" class="nav-link" id="nav41">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Compose single Mail</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="/compose-bulk-mail" class="nav-link" id="nav42">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Compose Bulk Mail</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="/email-templates" class="nav-link" id="nav42">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Email Templates</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="/sent-mails" class="nav-link" id="nav42">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Sent Mails</p>
-              </a>
-            </li>
-          </ul>
-        </li>
-        <li class="nav-item">
-          <a href="/smtp-setting" class="nav-link" id="nav6">
-            <i class="nav-icon fas fa-cog"></i>
-            <p>SMTP Setting</p>
+            <p>Plans</p>
           </a>
         </li>
       </ul>

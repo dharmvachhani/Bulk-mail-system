@@ -18,7 +18,7 @@ const post = function (req, res, next) {
         req.session.authorised = true;
         req.session.user_id = result[0].id;
 
-        res.redirect("/");
+        res.redirect("/dashboard");
       }
     }
   });

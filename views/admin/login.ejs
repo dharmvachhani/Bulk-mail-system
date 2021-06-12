@@ -27,7 +27,7 @@
         <div class="card-body">
           <p class="login-box-msg"><%= msg %></p>
 
-          <form action="/login" method="POST">
+          <form action="/admin" method="POST">
             <div class="input-group mb-3">
               <input type="email" class="form-control" name="email" placeholder="Email" required />
               <div class="input-group-append">
@@ -55,20 +55,12 @@
               <div class="col-4">
                 <button type="submit" class="btn btn-primary btn-block">Login</button>
               </div>
-              <div class="col-8">
-                <a href="/register" class="text-center" style="padding: 5px; float: right"
-                  >Register
-                </a>
-              </div>
+
               <!-- /.col -->
             </div>
           </form>
 
           <!-- /.social-auth-links -->
-
-          <p class="mb-1" style="padding-top: 10px; text-align: center">
-            <a href="/forgot-password">I forgot my password</a>
-          </p>
         </div>
         <!-- /.card-body -->
       </div>

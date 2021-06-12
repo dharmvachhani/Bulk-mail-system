@@ -37,7 +37,11 @@ var storage = multer.diskStorage({
 
 var upload = multer({ storage: storage });
 
-router.get("/", authorised, dashboardController);
+router.get("/", function (req, res) {
+  res.render("index");
+});
+
+router.get("/dashboard", authorised, dashboardController);
 
 router.get("/login", loginController.get);
 router.post("/login", loginController.post);

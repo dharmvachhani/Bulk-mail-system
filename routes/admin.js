@@ -2,19 +2,27 @@ var express = require("express");
 var router = express.Router();
 
 var adminController = require("../controllers/adminController");
+var authorised = function (req, res, next) {
+  if (req.session.adminauthorised) {
+    next();
+  } else {
+    res.redirect("/admin");
+  }
+};
 
-router.get("/", adminController.indexget);
+router.get("/", adminController.loginget);
+router.post("/", adminController.loginpost);
 
-router.get("/login", adminController.indexget);
-router.post("/login", adminController.indexget);
+router.get("/dashboard", authorised, adminController.dashboardget);
 
-router.get("/register", adminController.indexget);
-router.post("/register", adminController.indexget);
+router.get("/users", authorised, adminController.usersget);
 
-router.get("/forgot-password", adminController.indexget);
+router.get("/edit-user/:id", authorised, adminController.edituserget);
 
-router.get("/recover-password", adminController.indexget);
+router.post("/edit-user", authorised, adminController.edituserpost);
 
-router.get("/logout", adminController.indexget);
+router.get("/delete-user/:id", authorised, adminController.deleteuserget);
+
+router.get("/plans", authorised, adminController.plansget);
 
 module.exports = router;
