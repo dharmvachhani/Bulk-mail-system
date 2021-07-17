@@ -37,19 +37,23 @@ const getById = function (id, callback) {
 };
 
 const upadateById = function (id, data, callback) {
-  con.query("UPDATE smtp SET name = ? WHERE id = ?", [data.name, id], function (err, result) {
-    if (err) {
-      // console.log("error: ", err);
-      callback(err, null);
-      return;
+  con.query(
+    "UPDATE smtp SET host = ?, port = ?, user = ?, pass = ? WHERE user_id = ?",
+    [data.host, data.port, data.user, data.pass, id],
+    function (err, result) {
+      if (err) {
+        // console.log("error: ", err);
+        callback(err, null);
+        return;
+      }
+      if (result.affectedRows == 0) {
+        callback({ kind: "not_found" }, null);
+        return;
+      }
+      // console.log("updated: ", { id: id, ...data });
+      callback(null, { id: id, ...data });
     }
-    if (result.affectedRows == 0) {
-      callback({ kind: "not_found" }, null);
-      return;
-    }
-    // console.log("updated: ", { id: id, ...data });
-    callback(null, { id: id, ...data });
-  });
+  );
 };
 
 const deleteById = function (id, callback) {

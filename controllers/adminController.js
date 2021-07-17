@@ -38,7 +38,7 @@ const usersget = function (req, res, next) {
 
 const edituserget = function (req, res, next) {
   var plan = "";
-  Admin.customQuery("SELECT * FROM plan", function (err, result) {
+  Admin.customQuery("SELECT * FROM plan WHERE is_deleted = 0", function (err, result) {
     if (err) throw err;
     plan = result;
   });
@@ -50,10 +50,11 @@ const edituserget = function (req, res, next) {
 };
 
 const edituserpost = function (req, res, next) {
-  const sql = `SELECT * FROM user WHERE id = ${req.body.id}`;
+  const sql = `UPDATE user SET name = '${req.body.name}', email = '${req.body.email}', number = '${req.body.number}', plan_id = '${req.body.plan_id}', plan_date = '${req.body.plan_date}' WHERE id = ${req.body.user_id}`;
+
   Admin.customQuery(sql, function (err, result) {
     if (err) throw err;
-    res.render("admin/edit-user", { clients: result });
+    res.redirect("/admin/users");
   });
 };
 
@@ -66,8 +67,31 @@ const deleteuserget = function (req, res, next) {
 };
 
 const plansget = function (req, res, next) {
-  res.render("admin/plans", { msg: "" });
+  Admin.customQuery("SELECT * FROM plan WHERE is_deleted = 0 ", function (err, result) {
+    if (err) throw err;
+    res.render("admin/plans", { plans: result });
+  });
 };
+
+const planspost = function (req, res, next) {
+  const sql = `INSERT INTO plan (name,duration) VALUES ('${req.body.name}','${req.body.duration}')`;
+
+  Admin.customQuery(sql, function (err, result) {
+    if (err) throw err;
+    res.redirect("/admin/plans");
+  });
+};
+
+const plansdelete = function (req, res, next) {
+  Admin.customQuery(
+    `UPDATE plan SET is_deleted = 1 WHERE id = ${req.params.id}`,
+    function (err, result) {
+      if (err) throw err;
+      res.redirect("/admin/plans");
+    }
+  );
+};
+
 module.exports = {
   loginget,
   loginpost,
@@ -77,4 +101,6 @@ module.exports = {
   edituserpost,
   deleteuserget,
   plansget,
+  planspost,
+  plansdelete,
 };

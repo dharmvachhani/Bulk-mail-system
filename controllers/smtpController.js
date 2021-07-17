@@ -1,15 +1,7 @@
 const SMTP = require("../models/smtpModel");
 
 const getsmtp = function (req, res, next) {
-  var defaultsmtp = [
-    {
-      host: "smtp.gmail.com",
-      port: 587,
-      user: "example@gmail.com",
-      pass: "Your Gmail password",
-    },
-  ];
-  sql = `SELECT * FROM smtp WHERE user_id = 1`;
+  sql = `SELECT * FROM smtp WHERE user_id = ${req.session.user_id}`;
   SMTP.customQuery(sql, function (err, result) {
     console.log(result);
     if (err) {
@@ -24,14 +16,13 @@ const getsmtp = function (req, res, next) {
 
 const updatesmtp = function (req, res, next) {
   const data = {
-    user_id: 1,
     host: req.body.host,
     port: req.body.port,
     user: req.body.user,
     pass: req.body.pass,
   };
 
-  SMTP.upadateById(data, function (err, result) {
+  SMTP.upadateById(req.session.user_id, data, function (err, result) {
     if (err) throw err;
     res.redirect("/smtp-setting");
   });

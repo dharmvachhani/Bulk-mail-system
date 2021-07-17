@@ -24,5 +24,7 @@ router.post("/edit-user", authorised, adminController.edituserpost);
 router.get("/delete-user/:id", authorised, adminController.deleteuserget);
 
 router.get("/plans", authorised, adminController.plansget);
+router.post("/plan", authorised, adminController.planspost);
+router.get("/delete-plan/:id", authorised, adminController.plansdelete);
 
 module.exports = router;

@@ -15,15 +15,20 @@ const singlepost = function (req, res) {
   const cc = req.body.cc;
   const bcc = req.body.bcc;
   const msg = req.body.msg;
-  const file = req.file.filename;
 
-  sendMail(mail, subject, cc, bcc, msg, file, function (err, data) {
-    if (err) {
-      res.status(500).json({ message: err });
-    } else {
-      res.redirect("/compose-single-mail");
-    }
-  });
+  const file = "";
+  if (req.files) {
+    file = req.files.filename;
+  }
+  console.log(mail, subject, cc, bcc, msg, file);
+
+  // sendMail(mail, subject, cc, bcc, msg, file, function (err, data) {
+  //   if (err) {
+  //     res.status(500).json({ message: err });
+  //   } else {
+  //     res.redirect("/compose-single-mail");
+  //   }
+  // });
 };
 
 const bulk = function (req, res) {

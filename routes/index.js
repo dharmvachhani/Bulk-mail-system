@@ -37,6 +37,15 @@ var storage = multer.diskStorage({
 
 var upload = multer({ storage: storage });
 
+var uploadfile = function (req, res, next) {
+  if (req.files) {
+    upload.single("attachment");
+    next();
+  } else {
+    next();
+  }
+};
+
 router.get("/", function (req, res) {
   res.render("index");
 });
@@ -75,7 +84,7 @@ router.get("/manage-contact", authorised, managecontactController);
 
 router.get("/compose-single-mail", authorised, composemailController.single);
 
-router.post("/compose-single-mail", upload.single("attachment"), composemailController.singlepost);
+router.post("/compose-single-mail", uploadfile, composemailController.singlepost);
 
 router.get("/compose-bulk-mail", authorised, composemailController.bulk);
 

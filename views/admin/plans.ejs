@@ -31,7 +31,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <div class="wrapper">
       <%- include('partials/sidebar') %>
       <script type="text/javascript">
-        var element = document.getElementById("nav5");
+        var element = document.getElementById("nav3");
         element.classList.add("active");
       </script>
       <script></script>
@@ -70,20 +70,31 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <div class="card card-primary">
                   <!-- /.card-header -->
                   <!-- form start -->
-                  <form action="/category" method="POST">
+                  <form action="/admin/plan" method="POST">
                     <div class="card-body">
                       <div class="form-group">
-                        <label for="category">Category Name</label>
+                        <label for="Plan">Plan Name</label>
                         <input
                           type="text"
                           class="form-control"
-                          id="category"
-                          name="category"
-                          placeholder="Enter Category Name"
+                          id="Plan"
+                          name="name"
+                          placeholder="Enter Plan Name"
                           required
                         />
                       </div>
-                      <button type="submit" class="btn btn-primary">Add category</button>
+                      <div class="form-group">
+                        <label for="PlanD">Plan Duration</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="PlanD"
+                          name="duration"
+                          placeholder="Enter Plan Duration"
+                          required
+                        />
+                      </div>
+                      <button type="submit" class="btn btn-primary">Add Plan</button>
                     </div>
                     <!-- /.card-body -->
                   </form>
@@ -104,17 +115,19 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <table id="example1" class="table table-bordered table-striped text-center">
                   <thead>
                     <tr>
-                      <th>Category Name</th>
+                      <th>Plan Name</th>
+                      <th>Plan Duration in Month</th>
                       <th>Action</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <% for(var i=0; i < categories.length; i++) { %>
+                    <% for(var i=0; i < plans.length; i++) { %>
 
                     <tr>
-                      <td><%= categories[i].name %></td>
+                      <td><%= plans[i].name %></td>
+                      <td><%= plans[i].duration %></td>
                       <td>
-                        <a href="/delete-category/<%= categories[i].id %>"
+                        <a href="/admin/delete-plan/<%= plans[i].id %>"
                           ><i class="fa fa-trash"></i
                         ></a>
                       </td>
@@ -124,7 +137,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                   <tfoot>
                     <tr>
-                      <th>Category Name</th>
+                      <th>Plan Name</th>
+                      <th>Plan Duration in Month</th>
                       <th>Action</th>
                     </tr>
                   </tfoot>
